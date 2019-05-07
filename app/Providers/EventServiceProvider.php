@@ -23,6 +23,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\Universal\UnitDetachEvent' => [
             'App\Listeners\Universal\UnitDetachListener'
+        ],
+        'App\Events\Universal\CallArchiveEvent' => [
+            'App\Listeners\Universal\CallArchiveListener'
         ]
     ];
 }

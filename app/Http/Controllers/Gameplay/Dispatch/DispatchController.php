@@ -4,8 +4,12 @@
 namespace App\Http\Controllers\Gameplay\Dispatch;
 
 
+use App\Call;
 use App\CannedResponse;
 use App\Events\Police\StatusChangeEvent;
+use App\Events\Universal\CallArchiveEvent;
+use App\Events\Universal\CallAssignEvent;
+use App\Events\Universal\UnitDetachEvent;
 use App\Http\Controllers\Controller;
 use App\User;
 use Laravel\Lumen\Http\Request;
@@ -22,6 +26,44 @@ class DispatchController extends Controller
         $user = User::find($user);
         if($user == null) return CannedResponse::BadRequest();
         event(new StatusChangeEvent($user, $request->json('status')));
+        return CannedResponse::NoContent();
+    }
+
+    public static function newCall(Request $request) {
+        $primary = $request->json('primary_id');
+        $type = Call::CALL_POLICE;
+        $summary = $request->json('summary');
+        $description = $request->json('description');
+        $code = $request->json('code');
+        if(!$description) $description = "";
+        if(!$primary || !$summary || !$description || !$code) return CannedResponse::BadRequest();
+        $call = Call::create(['primary_id' => $primary, 'type' => $type, 'summary' => $summary,
+            'description' => $description, 'code' => $code]);
+        $call = Call::find($call->id);
+        event(new \App\Events\Universal\CallUpdateEvent($call));
+        event(new CallAssignEvent($call, User::find($primary)));
+        return CannedResponse::Created($call);
+    }
+
+    public static function assignCall($unit, $call) {
+        $user = User::find($unit);
+        $call = Call::find($call);
+        if($user == null || $call == null) return CannedResponse::BadRequest();
+        event(new CallAssignEvent($call, $user));
+        return CannedResponse::NoContent();
+    }
+
+    public static function detach($unit) {
+        $user = User::find($unit);
+        if($user == null) return CannedResponse::NotFound();
+        event(new UnitDetachEvent($user));
+        return CannedResponse::NoContent();
+    }
+
+    public static function archiveCall($call) {
+        $call = Call::find($call);
+        if($call == null) return CannedResponse::NotFound();
+        event(new CallArchiveEvent($call));
         return CannedResponse::NoContent();
     }
 

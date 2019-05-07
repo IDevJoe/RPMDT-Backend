@@ -20,6 +20,7 @@ class CreateCallsTable extends Migration
             $table->longText('summary');
             $table->longText('description');
             $table->string('code');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

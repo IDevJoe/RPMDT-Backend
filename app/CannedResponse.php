@@ -29,4 +29,12 @@ class CannedResponse
     public static function NoContent() {
         return self::main(204, null);
     }
+
+    public static function NotFound() {
+        return self::main(404, 'Not Found');
+    }
+
+    public static function Created($object) {
+        return self::main(201, $object);
+    }
 }

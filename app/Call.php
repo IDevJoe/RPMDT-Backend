@@ -8,9 +8,11 @@ namespace App;
 
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Call extends Model
 {
+    use SoftDeletes;
 
     public const CALL_POLICE = 0;
     public const CALL_FIRE = 1;

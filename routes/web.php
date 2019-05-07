@@ -26,8 +26,9 @@ $router->group(['namespace' => 'Gameplay', 'prefix' => 'game'], function() use (
         $router->post('/call', 'DispatchController@newCall');
         $router->patch('/call/{call}', 'DispatchController@updateCall');
         $router->post('/call/{call}/timeline', 'DispatchController@updateTimeline');
-        $router->delete('/call/{call}', 'DispatchController@deleteCall');
-        $router->post('/call/{call}/attach/{unit}', 'DispatchController@attachUnit');
+        $router->delete('/call/{call}', 'DispatchController@archiveCall');
+        $router->post('/call/{call}/attach/{unit}', 'DispatchController@assignCall');
+        $router->post('/unit/{unit}/detach', 'DispatchController@detach');
     });
     $router->group(['namespace' => 'Universal', 'prefix' => 'u'], function() use ($router) {
         $router->get('/plate/{plate}', 'UniversalController@plate');
