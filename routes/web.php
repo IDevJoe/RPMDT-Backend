@@ -22,7 +22,7 @@ $router->group(['namespace' => 'Gameplay', 'prefix' => 'game'], function() use (
         $router->post('/detach', 'PoliceController@detach');
     });
     $router->group(['namespace' => 'Dispatch', 'prefix' => 'd'], function() use ($router) {
-        $router->get('/state', 'DispatchController@state');
+        $router->patch('/status/{user}', 'DispatchController@setStatus');
         $router->post('/call', 'DispatchController@newCall');
         $router->patch('/call/{call}', 'DispatchController@updateCall');
         $router->post('/call/{call}/timeline', 'DispatchController@updateTimeline');
