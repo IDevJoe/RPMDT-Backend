@@ -26,6 +26,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\Universal\CallArchiveEvent' => [
             'App\Listeners\Universal\CallArchiveListener'
+        ],
+        'App\Events\Universal\CallUpdateEvent' => [
+            'App\Listeners\Universal\CallUpdateListener'
         ]
     ];
 }
