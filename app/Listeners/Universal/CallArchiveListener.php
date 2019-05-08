@@ -7,6 +7,7 @@
 namespace App\Listeners\Universal;
 
 
+use App\CallLog;
 use App\Events\Universal\CallArchiveEvent;
 use App\Events\Universal\UnitDetachEvent;
 
@@ -16,6 +17,7 @@ class CallArchiveListener
         foreach($event->call->units as $unit) {
             event(new UnitDetachEvent($unit));
         }
+        CallLog::create(['call_id' => $event->call->id, 'message' => 'Call was archived.']);
         $event->call->delete();
     }
 }

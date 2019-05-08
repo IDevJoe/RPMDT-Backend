@@ -18,7 +18,7 @@ class Call extends Model
     public const CALL_FIRE = 1;
 
     protected $fillable = ['primary_id', 'type', 'summary', 'description', 'code'];
-    protected $with = ['primary', 'units'];
+    protected $with = ['primary', 'units', 'log'];
 
     public function primary() {
         return $this->belongsTo('App\User', 'primary_id')->without('activeCall')->without('callsigns');
@@ -26,5 +26,9 @@ class Call extends Model
 
     public function units() {
         return $this->hasMany('App\User')->without('activeCall')->without('callsigns');
+    }
+
+    public function log() {
+        return $this->hasMany('App\CallLog');
     }
 }

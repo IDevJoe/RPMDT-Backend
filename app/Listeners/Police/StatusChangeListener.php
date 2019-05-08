@@ -2,6 +2,7 @@
 
 namespace App\Listeners\Police;
 
+use App\CallLog;
 use App\Events\ExampleEvent;
 use App\Events\Police\CallsignChangeEvent;
 use App\Events\Police\StatusChangeEvent;
@@ -32,5 +33,7 @@ class StatusChangeListener
         $u = $event->user;
         $u->status = $event->newStatus;
         $u->save();
+        if($event->user->activecall != null)
+            CallLog::create(['call_id' => $event->user->activecall->id, 'message' => $event->user->currentCallsign->callsign . '\'s status was changed to ' . $event->newStatus]);
     }
 }
