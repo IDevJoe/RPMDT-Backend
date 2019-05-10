@@ -32,7 +32,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'password', 'email'
     ];
 
-    protected $with = ['callsigns', 'currentCallsign', 'activecall'];
+    protected $with = ['callsigns', 'currentCallsign', 'activecall', 'characters'];
 
     public function callsigns() {
         return $this->hasMany('App\Callsign');
@@ -53,5 +53,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
     public function activecall() {
         return $this->belongsTo('App\Call', 'call_id')->without('units')->without('primary');
+    }
+
+    public function characters() {
+        return $this->hasMany('App\Character')->without('user');
     }
 }

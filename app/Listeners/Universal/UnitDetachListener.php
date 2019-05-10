@@ -15,7 +15,8 @@ use App\Events\Universal\UnitDetachEvent;
 class UnitDetachListener
 {
     public function handle(UnitDetachEvent $event) {
-        CallLog::create(['call_id' => $event->unit->activecall->id, 'message' => $event->unit->currentCallsign->callsign . ' was detached']);
+        CallLog::create(['call_id' => $event->unit->activecall->id, 'message' => $event->unit->currentCallsign->callsign . ' was detached',
+            'type' => CallLog::TYPE_CALL_DETACH]);
         $unit = $event->unit;
         $unit->call_id = null;
         $unit->save();

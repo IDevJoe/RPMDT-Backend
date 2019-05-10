@@ -14,6 +14,14 @@
 $router->post('/auth/new', 'AuthController@authorizeU');
 $router->get('/profile', 'MainController@profile');
 
+$router->group(['prefix' => 'tp', 'middleware' => ['auth']], function() use ($router) {
+    $router->post('/pusher/authorize', 'AuthController@authorizePrivateChannel');
+});
+
+$router->group(['namespace' => 'Civ', 'prefix' => 'c'], function() use($router) {
+    $router->post('/character', 'CharacterController@newCharacter');
+});
+
 $router->group(['namespace' => 'Gameplay', 'prefix' => 'game'], function() use ($router) {
     $router->group(['namespace' => 'Police', 'prefix' => 'p'], function() use ($router) {
         $router->get('/state', 'PoliceController@state');

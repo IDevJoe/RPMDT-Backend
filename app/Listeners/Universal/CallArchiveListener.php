@@ -17,7 +17,7 @@ class CallArchiveListener
         foreach($event->call->units as $unit) {
             event(new UnitDetachEvent($unit));
         }
-        CallLog::create(['call_id' => $event->call->id, 'message' => 'Call was archived.']);
+        CallLog::create(['call_id' => $event->call->id, 'message' => 'Call was archived.', 'type' => CallLog::TYPE_CALL_ARCHIVE]);
         $event->call->delete();
     }
 }

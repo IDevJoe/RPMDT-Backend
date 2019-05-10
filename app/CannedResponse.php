@@ -22,6 +22,10 @@ class CannedResponse
         return self::main(401, 'Unauthorized');
     }
 
+    public static function Fortbidden() {
+        return self::main(403, 'Forbidden');
+    }
+
     public static function BadRequest() {
         return self::main(400, 'Bad Request');
     }
@@ -36,5 +40,9 @@ class CannedResponse
 
     public static function Created($object) {
         return self::main(201, $object);
+    }
+
+    public static function Unprocessable($errors) {
+        return self::main(422, $errors);
     }
 }

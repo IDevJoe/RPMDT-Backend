@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\CannedResponse;
 use Exception;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -45,6 +46,9 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if($exception instanceof ValidationException) {
+            return CannedResponse::Unprocessable($exception->errors());
+        }
         return parent::render($request, $exception);
     }
 }

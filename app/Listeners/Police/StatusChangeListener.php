@@ -34,6 +34,7 @@ class StatusChangeListener
         $u->status = $event->newStatus;
         $u->save();
         if($event->user->activecall != null)
-            CallLog::create(['call_id' => $event->user->activecall->id, 'message' => $event->user->currentCallsign->callsign . '\'s status was changed to ' . $event->newStatus]);
+            CallLog::create(['call_id' => $event->user->activecall->id, 'message' => $event->user->currentCallsign->callsign . '\'s status was changed to ' . $event->newStatus,
+                'type' => CallLog::TYPE_UNIT_STATUSCHANGE]);
     }
 }

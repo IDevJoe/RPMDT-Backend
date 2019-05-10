@@ -13,6 +13,7 @@ use App\Events\Universal\CallUpdateEvent;
 class CallUpdateListener
 {
     public function handle(CallUpdateEvent $event) {
-        CallLog::create(['call_id' => $event->call->id, 'message' => 'Call information was updated.']);
+        CallLog::create(['call_id' => $event->call->id, 'message' => 'Call information was updated.',
+            'type' => CallLog::TYPE_CALL_UPDATE]);
     }
 }
