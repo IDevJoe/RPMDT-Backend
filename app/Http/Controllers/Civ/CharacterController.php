@@ -9,6 +9,7 @@ namespace App\Http\Controllers\Civ;
 
 use App\CannedResponse;
 use App\Character;
+use App\Events\Civ\CharacterDeleteEvent;
 use App\Events\Civ\NewCharacterEvent;
 use App\Http\Controllers\Controller;
 use App\Warrant;
@@ -32,7 +33,8 @@ class CharacterController extends Controller
             'city' => 'required|string',
             'state' => 'required|string',
             'lstatus' => 'required|string',
-            'warrants' => 'array'
+            'warrants' => 'array',
+            'dob' => 'required|date'
         ]);
         $c = Character::create(['user_id' => Auth::user()->id,
             'lname' => $request->json('lname'),
@@ -42,16 +44,25 @@ class CharacterController extends Controller
             'street_addr' => $request->json('street_addr'),
             'city' => $request->json('city'),
             'state' => $request->json('state'),
-            'lstatus' => $request->json('lstatus')]);
+            'lstatus' => $request->json('lstatus'),
+            'dob' => $request->json('dob')]);
 
         if($request->json('warrants'))
             foreach($request->json('warrants') as $w) {
-                if($w->type == null) continue;
-                if($w->info == null) continue;
-                Warrant::create(['character_id' => $c->id, 'type' => $w->type, 'info' => $w->info]);
+                if($w['type'] == null) continue;
+                if($w['info'] == null) continue;
+                Warrant::create(['character_id' => $c->id, 'type' => $w['type'], 'info' => $w['info']]);
             }
         event(new NewCharacterEvent(Character::find($c->id)));
         return CannedResponse::Created(Character::find($c->id));
 
+    }
+
+    public function delCharacter($id) {
+        $char = Character::find($id);
+        if($char == null) return CannedResponse::NotFound();
+        if($char->user->id != Auth::user()->id) return CannedResponse::Fortbidden();
+        event(new CharacterDeleteEvent($char));
+        return CannedResponse::NoContent();
     }
 }

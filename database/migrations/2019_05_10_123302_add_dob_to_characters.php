@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddTypeToCalllog extends Migration
+class AddDobToCharacters extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddTypeToCalllog extends Migration
      */
     public function up()
     {
-        Schema::table('calllog', function (Blueprint $table) {
-            $table->string('type')->nullable();
+        Schema::table('characters', function (Blueprint $table) {
+            $table->date('dob')->nullable();
         });
     }
 
@@ -25,8 +25,8 @@ class AddTypeToCalllog extends Migration
      */
     public function down()
     {
-        Schema::table('calllog', function (Blueprint $table) {
-            $table->dropColumn('type');
+        Schema::table('characters', function (Blueprint $table) {
+            $table->dropColumn('dob');
         });
     }
 }

@@ -25,7 +25,7 @@ class CallArchiveEvent extends Event implements ShouldBroadcast
 
     public function broadcastOn()
     {
-        return ['police.calls'];
+        return ['private-police.calls'];
     }
 
     public function broadcastAs() {

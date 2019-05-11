@@ -20,6 +20,7 @@ $router->group(['prefix' => 'tp', 'middleware' => ['auth']], function() use ($ro
 
 $router->group(['namespace' => 'Civ', 'prefix' => 'c'], function() use($router) {
     $router->post('/character', 'CharacterController@newCharacter');
+    $router->delete('/character/{id}', 'CharacterController@delCharacter');
 });
 
 $router->group(['namespace' => 'Gameplay', 'prefix' => 'game'], function() use ($router) {

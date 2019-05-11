@@ -29,6 +29,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\Universal\CallUpdateEvent' => [
             'App\Listeners\Universal\CallUpdateListener'
+        ],
+        'App\Events\Civ\CharacterDeleteEvent' => [
+            'App\Listeners\Civ\CharacterDeleteListener'
         ]
     ];
 }

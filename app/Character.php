@@ -11,7 +11,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Character extends Model
 {
-    protected $fillable = ['user_id', 'lname', 'mname', 'fname', 'eye_color', 'street_addr', 'city', 'state', 'lstatus'];
+    protected $fillable = ['user_id', 'lname', 'mname', 'fname', 'eye_color',
+        'street_addr', 'city', 'state', 'lstatus', 'dob'];
     protected $with = ['user', 'warrants'];
 
     public function user() {

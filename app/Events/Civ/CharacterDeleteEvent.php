@@ -12,7 +12,7 @@ use App\Events\Event;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Queue\SerializesModels;
 
-class NewCharacterEvent extends Event implements ShouldBroadcast
+class CharacterDeleteEvent extends Event implements ShouldBroadcast
 {
     use SerializesModels;
 
@@ -34,6 +34,6 @@ class NewCharacterEvent extends Event implements ShouldBroadcast
     }
 
     public function broadcastAs() {
-        return 'character.new';
+        return 'character.del';
     }
 }
