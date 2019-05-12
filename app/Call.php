@@ -21,11 +21,13 @@ class Call extends Model
     protected $with = ['primary', 'units', 'log'];
 
     public function primary() {
-        return $this->belongsTo('App\User', 'primary_id')->without('activeCall')->without('callsigns');
+        return $this->belongsTo('App\User', 'primary_id')->without('activecall')->without('callsigns')
+            ->without('characters');
     }
 
     public function units() {
-        return $this->hasMany('App\User')->without('activeCall')->without('callsigns');
+        return $this->hasMany('App\User')->without('activecall')->without('callsigns')
+            ->without('characters');
     }
 
     public function log() {
