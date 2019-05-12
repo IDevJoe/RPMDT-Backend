@@ -43,7 +43,7 @@ class DispatchController extends Controller
         $call = Call::create(['primary_id' => $primary, 'type' => $type, 'summary' => $summary,
             'description' => $description, 'code' => $code]);
         $call = Call::find($call->id);
-        CallLog::create(['call_id' => $call->id, 'message' => 'Call created by ' . Auth::user()->name]);
+        CallLog::create(['call_id' => $call->id, 'message' => 'Call created by ' . Auth::user()->name, 'type' => CallLog::TYPE_CALL_CREATE]);
         event(new \App\Events\Universal\CallUpdateEvent($call));
         event(new CallAssignEvent($call, User::find($primary)));
         return CannedResponse::Created($call);

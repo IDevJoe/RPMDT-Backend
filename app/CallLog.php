@@ -21,6 +21,7 @@ class CallLog extends Model
     public const TYPE_CALL_DETACH = "TYPE_CALL_DETACH";
     public const TYPE_CALL_ARCHIVE = "TYPE_CALL_ARCHIVE";
     public const TYPE_UNIT_STATUSCHANGE = "TYPE_UNIT_STATUSCHANGE";
+    public const TYPE_CALL_CREATE = "TYPE_CALL_CREATE";
 
     public function call() {
         return $this->belongsTo('App\Call');
