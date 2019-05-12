@@ -44,7 +44,6 @@ $router->group(['namespace' => 'Gameplay', 'prefix' => 'game'], function() use (
     });
     $router->group(['namespace' => 'Universal', 'prefix' => 'u'], function() use ($router) {
         $router->get('/plate/{plate}', 'UniversalController@plate');
-        $router->get('/id', 'UniversalController@lookupId');
-        $router->get('/id/{id}', 'UniversalController@IdDetail');
+        $router->post('/id', 'UniversalController@lookupId');
     });
 });
