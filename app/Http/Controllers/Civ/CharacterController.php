@@ -10,7 +10,9 @@ namespace App\Http\Controllers\Civ;
 use App\CannedResponse;
 use App\Character;
 use App\Events\Civ\CharacterDeleteEvent;
+use App\Events\Civ\CharacterUpdateEvent;
 use App\Events\Civ\NewCharacterEvent;
+use App\HF;
 use App\Http\Controllers\Controller;
 use App\Warrant;
 use Illuminate\Http\Request;
@@ -63,6 +65,39 @@ class CharacterController extends Controller
         if($char == null) return CannedResponse::NotFound();
         if($char->user->id != Auth::user()->id) return CannedResponse::Fortbidden();
         event(new CharacterDeleteEvent($char));
+        return CannedResponse::NoContent();
+    }
+
+    public function updateCharacter(Request $r, $id) {
+        $char = Character::find($id);
+        if($char == null) return CannedResponse::NotFound();
+        if($char->user->id != Auth::user()->id) return CannedResponse::Fortbidden();
+        HF::updateModel([
+            'lname', 'mname', 'fname', 'eye_color', 'street_addr', 'city', 'state', 'lstatus', 'dob'
+        ], $char, $r);
+        event(new CharacterUpdateEvent($char));
+        return CannedResponse::NoContent();
+    }
+
+    public function newWarrant(Request $r, $id) {
+        $char = Character::find($id);
+        if($char == null) return CannedResponse::NotFound();
+        if($char->user->id != Auth::user()->id) return CannedResponse::Fortbidden();
+        $this->validate($r, [
+            'type' => 'required|string',
+            'info' => 'required|string'
+        ]);
+        $w = Warrant::create(['character_id' => $char->id, 'type' => $r->json('type'), 'info' => $r->json('info')]);
+        event(new CharacterUpdateEvent($char));
+        return CannedResponse::Created($w);
+    }
+
+    public function deleteWarrant($warrant) {
+        $w = Warrant::find($warrant);
+        if($w == null) return CannedResponse::NotFound();
+        if($w->character->user->id != Auth::user()->id) return CannedResponse::Fortbidden();
+        $w->delete();
+        event(new CharacterUpdateEvent($w->character));
         return CannedResponse::NoContent();
     }
 }

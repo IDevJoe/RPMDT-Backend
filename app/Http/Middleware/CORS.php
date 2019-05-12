@@ -12,7 +12,7 @@ class CORS
     private function attachHeaders($r) {
         if(!($r instanceof Response))
             $r = \response($r);
-        return $r->header('Access-Control-Allow-Origin', App::environment() == 'production' ? env('APP_URL') : '*')
+        return $r->header('Access-Control-Allow-Origin', App::environment() == 'production' ? env('MDT_URL', 'http://localhost') : '*')
             ->header('Access-Control-Allow-Headers', "Content-Type, Authorization")
             ->header('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
     }

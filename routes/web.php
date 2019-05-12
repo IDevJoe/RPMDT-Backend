@@ -21,6 +21,9 @@ $router->group(['prefix' => 'tp', 'middleware' => ['auth']], function() use ($ro
 $router->group(['namespace' => 'Civ', 'prefix' => 'c'], function() use($router) {
     $router->post('/character', 'CharacterController@newCharacter');
     $router->delete('/character/{id}', 'CharacterController@delCharacter');
+    $router->patch('/character/{id}', 'CharacterController@updateCharacter');
+    $router->post('/character/{id}/warrant', 'CharacterController@newWarrant');
+    $router->delete('/warrant/{id}', 'CharacterController@deleteWarrant');
 });
 
 $router->group(['namespace' => 'Gameplay', 'prefix' => 'game'], function() use ($router) {
