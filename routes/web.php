@@ -24,6 +24,7 @@ $router->group(['namespace' => 'Civ', 'prefix' => 'c'], function() use($router) 
     $router->patch('/character/{id}', 'CharacterController@updateCharacter');
     $router->post('/character/{id}/warrant', 'CharacterController@newWarrant');
     $router->delete('/warrant/{id}', 'CharacterController@deleteWarrant');
+    $router->post('/character/{id}/vehicle', 'VehicleController@createVehicle');
 });
 
 $router->group(['namespace' => 'Gameplay', 'prefix' => 'game'], function() use ($router) {

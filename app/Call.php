@@ -31,6 +31,6 @@ class Call extends Model
     }
 
     public function log() {
-        return $this->hasMany('App\CallLog');
+        return $this->hasMany('App\CallLog')->limit(10);
     }
 }
