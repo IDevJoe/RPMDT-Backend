@@ -58,7 +58,7 @@ class DispatchController extends Controller
     }
 
     public static function detach($unit) {
-        $user = User::where('id', $unit)->without('callsigns')->without('characters')->first();
+        $user = User::find($unit);
         if($user == null) return CannedResponse::NotFound();
         event(new UnitDetachEvent($user));
         return CannedResponse::NoContent();

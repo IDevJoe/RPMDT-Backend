@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\CannedResponse;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 
 class MainController extends Controller
@@ -18,6 +19,8 @@ class MainController extends Controller
     }
 
     public function profile() {
-        return CannedResponse::OK(Auth::user());
+        $user = Auth::user();
+        $u = User::with('callsigns')->with('characters')->where('id', $user->id)->first();
+        return CannedResponse::OK($u);
     }
 }
