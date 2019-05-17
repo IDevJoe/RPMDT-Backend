@@ -34,7 +34,9 @@ class VehicleController extends Controller
             'make' => 'required|string',
             'model' => 'required|string',
             'color' => 'required|string',
-            'plate' => 'required|string'
+            'plate' => 'required|string',
+            'plstatus' => 'required|string',
+            'instatus' => 'required|string'
         ]);
         $veh = Vehicle::create(['make' => $request->json('make'), 'model' => $request->json('model'),
             'color' => $request->json('color'), 'character_id' => $c->id, 'plate' => $request->json('plate')]);
@@ -46,7 +48,7 @@ class VehicleController extends Controller
         $vehicle = Vehicle::find($vehicle);
         if($vehicle == null) return CannedResponse::NotFound();
         if($vehicle->character->user->id != Auth::user()->id) return CannedResponse::Fortbidden();
-        HF::updateModel(['make', 'model', 'color', 'plate'], $vehicle, $r);
+        HF::updateModel(['make', 'model', 'color', 'plate', 'plstatus', 'instatus'], $vehicle, $r);
         event(new VehicleUpdateEvent($vehicle));
         return CannedResponse::NoContent();
     }

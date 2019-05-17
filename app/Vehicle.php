@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 class Vehicle extends Model
 {
 
-    protected $fillable = ['make', 'model', 'color', 'plate', 'character_id'];
+    protected $fillable = ['make', 'model', 'color', 'plate', 'character_id', 'plstatus', 'instatus'];
     protected $hidden = ['character_id'];
     protected $with = ['character'];
 

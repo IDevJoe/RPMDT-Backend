@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use App\CannedResponse;
 use Exception;
+use Illuminate\Support\Facades\App;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -53,6 +54,23 @@ class Handler extends ExceptionHandler
         if($exception instanceof ValidationException) {
             return CannedResponse::Unprocessable($exception->errors());
         }
-        return parent::render($request, $exception);
+        if(array_search(get_class($exception), $this->dontReport) !== -1) {
+            $render = parent::render($request, $exception);
+            $sc = $render->getStatusCode();
+            switch($sc) {
+                case 404:
+                    return CannedResponse::NotFound();
+                case 401:
+                    return CannedResponse::Fortbidden();
+                case 403:
+                    return CannedResponse::Unauthorized();
+                case 400:
+                    return CannedResponse::BadRequest();
+            }
+            return CannedResponse::main($render->getStatusCode(), null);
+        }
+        $render =  parent::render($request, $exception);
+        if(App::environment() == 'development') return $render;
+        else return CannedResponse::main($render->getStatusCode(), null);
     }
 }
