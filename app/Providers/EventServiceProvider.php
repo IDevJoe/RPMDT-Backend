@@ -32,6 +32,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\Civ\CharacterDeleteEvent' => [
             'App\Listeners\Civ\CharacterDeleteListener'
+        ],
+        'App\Events\Civ\VehicleDeleteEvent' => [
+            'App\Listeners\Civ\VehicleDeleteListener'
         ]
     ];
 }

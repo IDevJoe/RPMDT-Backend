@@ -10,6 +10,9 @@ namespace App\Http\Controllers\Civ;
 use App\CannedResponse;
 use App\Character;
 use App\Events\Civ\VehicleCreateEvent;
+use App\Events\Civ\VehicleDeleteEvent;
+use App\Events\Civ\VehicleUpdateEvent;
+use App\HF;
 use App\Http\Controllers\Controller;
 use App\Vehicle;
 use Illuminate\Http\Request;
@@ -37,6 +40,23 @@ class VehicleController extends Controller
             'color' => $request->json('color'), 'character_id' => $c->id, 'plate' => $request->json('plate')]);
         event(new VehicleCreateEvent($veh));
         return CannedResponse::Created($veh);
+    }
+
+    public function editVehicle(Request $r, $vehicle) {
+        $vehicle = Vehicle::find($vehicle);
+        if($vehicle == null) return CannedResponse::NotFound();
+        if($vehicle->character->user->id != Auth::user()->id) return CannedResponse::Fortbidden();
+        HF::updateModel(['make', 'model', 'color', 'plate'], $vehicle, $r);
+        event(new VehicleUpdateEvent($vehicle));
+        return CannedResponse::NoContent();
+    }
+
+    public function delVehicle(Request $r, $vehicle) {
+        $vehicle = Vehicle::find($vehicle);
+        if($vehicle == null) return CannedResponse::NotFound();
+        if($vehicle->character->user->id != Auth::user()->id) return CannedResponse::Fortbidden();
+        event(new VehicleDeleteEvent($vehicle));
+        return CannedResponse::NoContent();
     }
 
 }
