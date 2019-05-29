@@ -26,7 +26,7 @@ class PoliceController extends Controller
     }
 
     public function state() {
-        return CannedResponse::OK(['police' => User::where('status', '!=', null)->get()->makeHidden('email'), 'calls' => Call::get(), 'active_call' => Auth::user()->activecall,
+        return CannedResponse::OK(['police' => User::where('status', '!=', null)->get()->makeHidden('email'), 'calls' => Call::with('log')->get(), 'active_call' => Auth::user()->activecall,
             'status' => Auth::user()->status, 'callsign' => Auth::user()->currentCallsign]);
     }
 

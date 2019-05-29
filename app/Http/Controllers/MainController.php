@@ -20,7 +20,7 @@ class MainController extends Controller
 
     public function profile() {
         $user = Auth::user();
-        $u = User::with('callsigns')->with('characters')->where('id', $user->id)->first();
+        $u = User::with('callsigns')->with('characters')->with('characters.vehicles')->where('id', $user->id)->first();
         return CannedResponse::OK($u);
     }
 }

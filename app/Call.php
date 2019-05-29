@@ -18,7 +18,7 @@ class Call extends Model
     public const CALL_FIRE = 1;
 
     protected $fillable = ['primary_id', 'type', 'summary', 'description', 'code'];
-    protected $with = ['primary', 'units', 'log'];
+    protected $with = ['primary', 'units'];
 
     public function primary() {
         return $this->belongsTo('App\User', 'primary_id')->without('activecall')->without('callsigns')

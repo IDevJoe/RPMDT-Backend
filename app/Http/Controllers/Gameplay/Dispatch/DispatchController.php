@@ -44,9 +44,10 @@ class DispatchController extends Controller
             'description' => $description, 'code' => $code]);
         $call = Call::find($call->id);
         CallLog::create(['call_id' => $call->id, 'message' => 'Call created by ' . Auth::user()->name, 'type' => CallLog::TYPE_CALL_CREATE]);
-        event(new \App\Events\Universal\CallUpdateEvent($call));
-        event(new CallAssignEvent($call, User::find($primary)));
-        return CannedResponse::Created($call);
+        $cwl = Call::with('log')->find($call->id);
+        event(new \App\Events\Universal\CallUpdateEvent($cwl));
+        event(new CallAssignEvent($cwl, User::find($primary)));
+        return CannedResponse::Created($cwl);
     }
 
     public static function assignCall($unit, $call) {

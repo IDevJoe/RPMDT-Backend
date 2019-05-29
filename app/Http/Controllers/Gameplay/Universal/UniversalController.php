@@ -22,7 +22,7 @@ class UniversalController extends Controller
     }
 
     public function lookupId(Request $request) {
-        return CannedResponse::OK(Character::where('lname', 'like', $request->json('lname'))->limit(10)->without('user')->get());
+        return CannedResponse::OK(Character::where('lname', 'like', $request->json('lname'))->limit(10)->without('user')->with('vehicles')->get());
     }
 
     public function plate($plate) {

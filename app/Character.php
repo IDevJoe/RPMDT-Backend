@@ -13,7 +13,7 @@ class Character extends Model
 {
     protected $fillable = ['user_id', 'lname', 'mname', 'fname', 'eye_color',
         'street_addr', 'city', 'state', 'lstatus', 'dob'];
-    protected $with = ['user', 'warrants', 'vehicles'];
+    protected $with = ['user', 'warrants'];
 
     public function user() {
         return $this->belongsTo('App\User')->without('characters');
@@ -24,6 +24,6 @@ class Character extends Model
     }
 
     public function vehicles() {
-        return $this->hasMany('App\Vehicle');
+        return $this->hasMany('App\Vehicle')->without('character');
     }
 }
